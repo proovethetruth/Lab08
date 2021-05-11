@@ -1,7 +1,7 @@
 #ifndef LAB08_H
 #define LAB08_H
 
-#define N 300
+#define N 20
 
 char** parser();
 int my_strcmp(char* a, char* b);

@@ -10,7 +10,7 @@ char** parser() {
     FILE* fp;
     fp = fopen("test.txt", "r");
 
-    char** str = (char**)calloc(20, sizeof(char*) * N);
+    char** str = (char**)calloc(N, sizeof(char*) * N);
     if (!str)
     {
         printf("\n Allocation error");
@@ -31,7 +31,7 @@ char** parser() {
 
     for (int q = 0; q < lines; q++)
     {
-        if (!(str[q] = (char*)calloc(20, sizeof(char) * 20)))
+        if (!(str[q] = (char*)calloc(N, sizeof(char) * N)))
         {
             printf("\n Allocation error");
             return NULL;
@@ -39,7 +39,7 @@ char** parser() {
     }
 
     for (int i = 0; i < lines; i++) {
-        for (int j = 0; j < 20; j++) {
+        for (int j = 0; j < N; j++) {
             if (((fscanf(fp, "%c", &str[i][j])) != 1) || str[i][j] == '\n' || str[i][j] == ' ')
                 break;
         }
@@ -57,10 +57,14 @@ int my_strcmp(char* a, char* b)
 }
 
 int search(char** arr, char* word, int a, int b) {
-	int mid = 0;
+	int mid = 0, flag = 0;
 	while (a < b)
 	{
 		mid = (a + b) / 2;
+        
+        if (flag == mid)
+            return -1;
+        flag = mid;
 
 		switch (my_strcmp(word, arr[mid])) {
 		case 0:
@@ -73,5 +77,4 @@ int search(char** arr, char* word, int a, int b) {
 			break;
 		}
 	}
-	return -1;
 }
