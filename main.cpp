@@ -7,40 +7,26 @@
 #include "Lab08.h"
 
 int main() {
-	int amount = 5;
-
-	char** str = (char**)malloc(amount * sizeof(char));
-
-	if (str == NULL) {
-		printf("\n Error allocating memory!");
-		return -101;
-	}
-
-	for (int i = 0, j = 0; i < amount; i++)
-	{
-		str[i] = (char*)malloc(15 * sizeof(int));
-
-		if (str[i] == NULL) {
-			printf("\n Error allocating memory!");
-			return -101;
+	char** str = parser();
+	
+	int i;
+	printf("\n Contents of .txt file:\n");
+	for (i = 0; str[i] != NULL; i++) {
+		printf("\t%d) ", i);
+		for (int j = 0; j < 20; j++) {
+			printf("%c", str[i][j]);
 		}
-
-		printf("\n Enter array element #%d: ", i + 1);
-		fgets(str[i], 15, stdin);
 	}
-
-	// "ant", "apple", "business", "butcher", "donkey", "forest"
-	// "garage", "lolipop", "orange", "zoo"
 
 	int a = 0;
-	int b = amount - 1;
+	int b = i;
 
-	printf("\n Input word: ");
-	char* word = (char*)malloc(15 * sizeof(char));								// word input
-	fgets(word, 15, stdin);
-	
+	printf("\n\n Input word: ");
+	char* word = (char*)malloc(sizeof(char) * 20);								// word input
+	fgets(word, 20, stdin);
+
 	int match = search(str, word, a, b);
-	printf("\n Succesfully found matching word on index: %d", match);
+	printf(" Succesfully found matching word on index: %d\n", match);
 
 	return 0;
 }
