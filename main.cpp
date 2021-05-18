@@ -6,39 +6,41 @@
 #include <stdlib.h>
 #include "Lab08.h"
 
-int main() {
-	char** str = parser();
-	
-	int i;
-	printf("\n Contents of .txt file:\n");
-	for (i = 0; str[i] != NULL; i++) {
-		printf("\t%d) ", i);
-		for (int j = 0; j < 20; j++) {
-			printf("%c", str[i][j]);
-		}
-	}
+int main(int argc, char* argv[]) {
+	char* filename = (char*)malloc(sizeof(char) * N);
+	char* word = (char*)malloc(sizeof(char) * N);
 
-	int a = 0;
-	int b = i;
+	strcopy(argv[1], filename);
+	strcopy(argv[2], word);
 
-	printf("\n\n Input word: ");
-	char* word = (char*)malloc(sizeof(char) * N);						// word input
-	if (!word)
+	printf("%s", filename);
+	printf("%s", word);
+	/*printf("\n\n Input filename and word: ");
+	if (scanf("%s %s", filename, word) != 2)
+	{
+		printf(" Input error\n");
+		return -2;
+	}*/
+	if (!word || !filename)
 	{
 		printf("\n Allocation error");
 		return -2;
 	}
 
-	fgets(word, N, stdin);
 	if (word[0] > 47 && word[0] < 58)
 	{
 		printf(" Input error\n");
 		return -2;
 	}
 
-	int match = search(str, word, a, b);
+	int i = 0;
+	for (; word[i] != '\0'; i++);
+		word[i] = '\n';
+	word[i+1] = '\0';
+	
+	int match = search_inside(filename, word);
 
-	if (match != -1)
+	if (match >= 0)
 		printf(" Succesfully found matching word on index: %d\n", match);
 	else
 		printf(" No matches found");

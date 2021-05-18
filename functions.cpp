@@ -6,15 +6,25 @@
 #include <stdlib.h>
 #include "Lab08.h"
 
-char** parser() {
+void strcopy(char* a, char* b) {
+    for (int i = 0; a[i] != '\0'; i++)
+        b[i] = a[i];
+}
+
+int search_inside(char* filename, char* word) {
     FILE* fp;
-    fp = fopen("test.txt", "r");
+    fp = fopen(filename, "r");
+    /*if (!fp)
+    {
+        printf("\n File not found");
+        return -2;
+    }*/
 
     char** str = (char**)calloc(N, sizeof(char*) * N);
     if (!str)
     {
         printf("\n Allocation error");
-        return NULL;
+        return -2;
     }
 
     char ch;
@@ -34,7 +44,7 @@ char** parser() {
         if (!(str[q] = (char*)calloc(N, sizeof(char) * N)))
         {
             printf("\n Allocation error");
-            return NULL;
+            return -2;
         }
     }
 
@@ -45,8 +55,44 @@ char** parser() {
         }
     }
 
-    return str;
+    int i;
+    printf("\n Contents of .txt file:\n");
+    for (i = 0; str[i] != NULL; i++) {
+        printf(" %d) ", i);
+        for (int j = 0; j < 20; j++) {
+            printf("%c", str[i][j]);
+        }
+    }
+
+    int mid = 0, flag = 0, a = 0;
+    while (a < lines)
+    {
+        mid = (a + lines) / 2;
+
+        if (flag == mid)
+            return -1;
+        flag = mid;
+
+        switch (my_strcmp(word, str[mid])) {
+        case 0:
+            printf("\n CASE 0.");
+            return mid;
+        case 1:
+            printf("\n CASE 1.");
+            a = mid;
+            break;
+        case -1:
+            printf("\n CASE -1.");
+            lines = mid;
+            break;
+        }
+    }
+    free(str);
+    return -1;
 }
+
+// Чтобы это работало
+// Вбил text.txt пробел слово
 
 int my_strcmp(char* a, char* b)
 {
@@ -54,27 +100,4 @@ int my_strcmp(char* a, char* b)
     if (*a < *b)
         return -1;
     return *a > * b;
-}
-
-int search(char** arr, char* word, int a, int b) {
-	int mid = 0, flag = 0;
-	while (a < b)
-	{
-		mid = (a + b) / 2;
-        
-        if (flag == mid)
-            return -1;
-        flag = mid;
-
-		switch (my_strcmp(word, arr[mid])) {
-		case 0:
-			return mid;
-		case 1:
-			a = mid;
-			break;
-		case -1:
-			b = mid;
-			break;
-		}
-	}
 }
